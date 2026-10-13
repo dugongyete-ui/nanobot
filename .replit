@@ -1,0 +1,59 @@
+modules = ["python-3.11", "nodejs-22"]
+run = "if [ ! -f .pythonlibs/.nanobot-deps-ready ]; then uv pip install --target .pythonlibs/lib/python3.11/site-packages -e . && touch .pythonlibs/.nanobot-deps-ready; fi && python scripts/replit_bootstrap.py && python -m nanobot webui --yes --no-open --port 5000 --host 0.0.0.0 --config ~/.nanobot/replit-config.json"
+
+[nix]
+channel = "stable-25_05"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[userenv]
+
+[userenv.shared]
+API_BASE = "https://integrate.api.nvidia.com/v1"
+MODEL_NAME = "nvidia/nemotron-3-super-120b-a12b"
+MODEL_PROVIDER = "openai"
+VISION_MODEL_NAME = "meta/llama-3.2-11b-vision-instruct"
+VISION_MODEL_PROVIDER = "openai"
+VISION_API_BASE = "https://integrate.api.nvidia.com/v1"
+MONGODB_DATABASE = "manus"
+REDIS_HOST = "redis-14320.c334.asia-southeast2-1.gce.cloud.redislabs.com"
+REDIS_PORT = "14320"
+SEARCH_PROVIDER = "tavily"
+AUTH_PROVIDER = "password"
+JWT_ALGORITHM = "HS256"
+JWT_ACCESS_TOKEN_EXPIRE_MINUTES = "1440"
+JWT_REFRESH_TOKEN_EXPIRE_DAYS = "30"
+LOG_LEVEL = "INFO"
+SUMMARY_MODEL_NAME = "nvidia/nemotron-3-super-120b-a12b"
+MONGODB_URI = "mongodb+srv://galerizaki_db_user:wTkfzrqewY5qCxYG@cluster0.vmiek8b.mongodb.net/manus?retryWrites=true&w=majority"
+REDIS_PASSWORD = "dA82OZIdJg62zWqsPJ9sDNvgtpCKbAAs"
+JWT_SECRET_KEY = "vcyffuhduduffjdejieueueueueuu-#--$-#6#-super-secure"
+TAVILY_API_KEY = "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"
+VISION_API_KEY = "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"
+API_KEY = "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"
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "if [ ! -f .pythonlibs/.nanobot-deps-ready ]; then uv pip install --target .pythonlibs/lib/python3.11/site-packages -e . && touch .pythonlibs/.nanobot-deps-ready; fi && python scripts/replit_bootstrap.py && python -m nanobot webui --yes --no-open --port 5000 --host 0.0.0.0 --config ~/.nanobot/replit-config.json"
+waitForPort = 5000
+
+[workflows.workflow.metadata]
+outputType = "webview"

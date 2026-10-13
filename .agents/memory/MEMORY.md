@@ -1,0 +1,1 @@
+- [Replit Python package install](replit-python-packages.md) — UPM package installs crash in this Repl; use uv with the `.pythonlibs` target, not the immutable Nix interpreter.
