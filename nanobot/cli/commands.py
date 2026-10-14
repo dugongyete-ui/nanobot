@@ -372,7 +372,7 @@ def serve(
     from nanobot.agent.tools.image_generation import register_image_generation_tool
     from nanobot.api.server import create_app
     from nanobot.bus.queue import MessageBus
-    from nanobot.session.manager import SessionManager
+    from nanobot.session.mongo_redis_store import create_replit_session_manager
 
     _set_nanobot_logs(verbose)
 
@@ -389,7 +389,7 @@ def serve(
         raise typer.Exit(1)
     sync_workspace_templates(runtime_config.workspace_path)
     bus = MessageBus()
-    session_manager = SessionManager(runtime_config.workspace_path)
+    session_manager = create_replit_session_manager(runtime_config.workspace_path)
     tools = ToolRegistry()
     register_image_generation_tool(runtime_config, tools, workspace=runtime_config.workspace_path)
     mcp_provider = MCPProvider.from_config(runtime_config, tools)

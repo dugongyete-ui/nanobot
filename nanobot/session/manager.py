@@ -1530,6 +1530,9 @@ class SessionManager:
         self.workspace = workspace
         self._jsonl_store = JsonlSessionStore(workspace, sessions_root=sessions_root)
         self._store: SessionStore = store if store is not None else self._jsonl_store
+        bind_jsonl_store = getattr(self._store, "bind_jsonl_store", None)
+        if callable(bind_jsonl_store):
+            bind_jsonl_store(self._jsonl_store)
         self.sessions_dir = self._jsonl_store.sessions_dir
         self.legacy_sessions_dir = self._jsonl_store.legacy_sessions_dir
         self._cache: OrderedDict[str, Session] = OrderedDict()

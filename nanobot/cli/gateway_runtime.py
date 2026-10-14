@@ -381,7 +381,7 @@ def _run_gateway(
         load_provider_snapshot,
     )
     from nanobot.providers.fallback_provider import FallbackProvider
-    from nanobot.session.manager import SessionManager
+    from nanobot.session.mongo_redis_store import create_replit_session_manager
     from nanobot.session.webui_turns import (
         WebuiTurnCoordinator,
         WebuiTurnRoutePolicy,
@@ -447,7 +447,7 @@ def _run_gateway(
         except ValueError as exc:
             console.print(f"[red]Error: {exc}[/red]")
             raise typer.Exit(1) from exc
-    session_manager = SessionManager(config.workspace_path)
+    session_manager = create_replit_session_manager(config.workspace_path)
 
     # Use the same runtime identity for foreground and managed gateway processes.
     from nanobot.config.loader import get_config_path
